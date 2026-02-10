@@ -1,0 +1,41 @@
+# CUDA wheels
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+
+# UI
+streamlit==1.32.2
+python-dotenv==1.0.1
+
+# LLM + RAG
+langchain==0.1.16
+langchain-community==0.0.32
+langchain-text-splitters==0.0.1
+chromadb==0.4.24
+sentence-transformers==2.6.1
+
+# GitHub & files
+gitpython==3.1.42
+pathspec==0.12.1
+
+# Code parsing
+tree-sitter==0.21.0
+tree-sitter-languages==1.10.2
+
+# Data & utils
+pydantic==2.6.4
+tqdm==4.66.2
+rich==13.7.1
+
+# Diagrams
+mermaid-py==0.6.0
+
+# Audio (future use)
+openai-whisper
+ffmpeg-python
+
+# GPU (CUDA 11.8)
+torch==2.1.2+cu118
+torchvision==0.16.2+cu118
+torchaudio==2.1.2+cu118
+
+--extra-index-url https://download.pytorch.org/whl/cu118
