@@ -13,7 +13,6 @@ def export_markdown(title, content):
 
     return filename
 
-
 def export_teleprompter(title, content):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     filename = f"{OUTPUT_DIR}/{title.replace(' ', '_')}_teleprompter.txt"

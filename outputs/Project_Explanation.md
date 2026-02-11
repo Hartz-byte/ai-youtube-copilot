@@ -1,0 +1,26 @@
+# Project_Explanation
+
+1. The overall purpose of the file is to parse a PDF document containing information about a property and extract relevant data from it. This data includes details such as the property's location, size, age, condition, and value, as well as any reports or valuations that have been conducted on the property. The extracted data is then stored in a dictionary format for further processing or analysis.
+2. Each function serves a specific purpose within the parsing process:
+- `parse_document` takes a PDF file as input and returns a list of elements (`els`) containing information about the document's structure and content. This function uses the `PyPDF2` library to extract text from the PDF file and identify key elements such as headings, paragraphs, and tables.
+- `extract_text` takes a list of elements and returns a dictionary containing the extracted text for each element. This function iterates through the elements in the list and uses regular expressions to extract specific pieces of information (e.g., property type, number of bedrooms, etc.) from the text content.
+- `validate_data` takes a dictionary of extracted data and validates it against a set of predefined rules. This function checks that all required fields are present in the dictionary and that the data types match the expected values (e.g., integers for numerical fields).
+- `create_report` takes a dictionary of validated data and creates a report containing all the relevant information about the property. This function uses string formatting to create a human-readable report that includes details such as the property's location, size, age, condition, and value.
+3. Each function exists to perform a specific task within the parsing process. `parse_document` is responsible for extracting the structure and content of the PDF document, while `extract_text` focuses on extracting specific pieces of information from the text content. The `validate_data` function ensures that the extracted data is valid and complete, and the `create_report` function generates a human-readable report containing all the relevant information about the property.
+4. Design decisions were made to optimize the parsing process for efficiency and accuracy. For example, using regular expressions to extract specific pieces of information from the text content allows for more precise and accurate data extraction. Additionally, validating the extracted data against a set of predefined rules ensures that the data is complete and consistent.
+5. This file interacts with other modules by importing necessary libraries (e.g., `PyPDF2`, `re`) and using functions from those libraries within the parsing process. It also stores the extracted data in a dictionary format for further processing or analysis, which could be used by other modules or applications.
+
+
+Overall Purpose:
+The `schema_template.py` file is a Python dictionary template that aligns to the target Mongoose model for extracting data from PDF files. It contains functions that define the structure of the extracted data and their respective keys in the dictionary. The purpose of this file is to provide a structured format for the extracted data that can be easily stored and queried using the Mongoose database.
+
+1. Functions:
+The `schema_template.py` file defines several functions, each of which corresponds to a specific key or field in the extracted data dictionary. These functions include:
+
+* `get_valuation_report_schema()`: This function returns a dictionary that contains all the keys and values for the valuation report schema. It is the main function that defines the structure of the extracted data.
+2. Why each Function Exists:
+Each function in the `schema_template.py` file exists to define a specific key or field in the extracted data dictionary. These functions are necessary because they provide a structured format for the extracted data that can be easily stored and queried using the Mongoose database. Without these functions, the extracted data would not have a clear structure or meaning.
+3. Design Decisions:
+The design decisions made in the `schema_template.py` file include the use of functions to define the structure of the extracted data and the use of a dictionary to store the keys and values for each field. This design decision allows for easy modification and extension of the schema as needed, while still maintaining a clear and structured format for the extracted data.
+4. Interaction with other Modules:
+The `schema_template.py` file interacts with other modules in the project by providing a structured format for the extracted data that can be easily stored and queried using the Mongoose database. This allows for easy integration of the extracted data into other parts of the system, such as reporting and analysis tools. Additionally, the `schema_template.py` file interacts with the `main.py` module by providing the structured data format that is used to store the extracted data in the Mongoose database.

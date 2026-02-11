@@ -12,6 +12,7 @@ langchain-community==0.0.32
 langchain-text-splitters==0.0.1
 chromadb==0.4.24
 sentence-transformers==2.6.1
+posthog==3.0.2
 
 # GitHub & files
 gitpython==3.1.42
