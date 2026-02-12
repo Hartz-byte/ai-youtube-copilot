@@ -1,24 +1,35 @@
 import os
 
 def repo_architecture_diagram(files):
+
     modules = set()
 
     for f in files:
-        parts = f["path"].replace("\\", "/").split("/")
+        path = f["path"].replace("\\", "/")
+
+        parts = path.split("/")
+
+        # Skip absolute windows paths
+        if ":" in parts[0]:
+            parts = parts[1:]
+
         if len(parts) > 1:
             modules.add(parts[0])
 
-    diagram = "graph TD\n"
-    diagram += "User[User] --> UI[Streamlit UI]\n"
-    diagram += "UI --> Controller\n"
+    diagram = """graph TD
+    User[User] --> UI[Streamlit UI]
+    UI --> Controller
+    Controller --> RAG
+    Controller --> LLM
+    """
 
-    for m in modules:
-        safe_name = m.replace("-", "_")
-        diagram += f"Controller --> {safe_name}[{m}]\n"
+    for m in sorted(modules):
+        diagram += f'    Controller --> {m}["{m}"]\n'
 
-    diagram += "Controller --> RAG\n"
-    diagram += "Controller --> LLM\n"
-    diagram += "LLM --> Output\n"
+    diagram += """
+    RAG --> VectorDB
+    LLM --> Output
+    """
 
     return diagram
 

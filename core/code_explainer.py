@@ -17,9 +17,13 @@ def extract_basic_structure(content):
     for line in content.split("\n"):
         line = line.strip()
         if line.startswith("def "):
-            functions.append(line.split("(")[0].replace("def ", ""))
+            try:
+                functions.append(line.split("(")[0].replace("def ", ""))
+            except: pass
         elif line.startswith("class "):
-            classes.append(line.split("(")[0].replace("class ", ""))
+            try:
+                classes.append(line.split("(")[0].replace("class ", "").split(":")[0])
+            except: pass
 
     return {
         "functions": functions,
@@ -27,22 +31,20 @@ def extract_basic_structure(content):
     }
 
 def explain_code(file_data, level, repo_id):
-
-    # Retrieve RAG context
+    """
+    Generates a grounded explanation for a single code file.
+    """
+    # Retrieve RAG context (semantic neighbors)
     context = query_vectorstore(
         f"Explain file {file_data['path']}",
         repo_id
     )
-
     context = truncate_text(context)
 
-    # Safe structure extraction
-    if "structure" in file_data:
-        structure = file_data["structure"]
-    else:
-        structure = extract_basic_structure(file_data["content"])
+    # Use existing structure or extract on the fly
+    structure = file_data.get("structure", extract_basic_structure(file_data["content"]))
 
-    # Build prompt
+    # Build prompt with RAW code to ensure maximum groundedness
     prompt = build_code_prompt(
         file_data["path"],
         file_data["content"],
@@ -51,5 +53,5 @@ def explain_code(file_data, level, repo_id):
         context
     )
 
-    # Generate
+    # Generate using code-specialized model
     return llm.generate(prompt, mode="code")
