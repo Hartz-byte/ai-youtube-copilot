@@ -59,45 +59,58 @@ def build_prompt(mode, context, level):
         Create a 60-second YouTube Short script about: {context}
         Level: {level} ({current_level_instr})
         
-        NARRATIVE RULES:
-        - Persona: A professional, helpful AI Engineer talking to the camera.
-        - Tone: Conversational, fast-paced, and authoritative.
-        - NO META-TAGS: Do not include [Hook], [Definition], or [Key Takeaway] labels in the spoken text.
-        - NO "Host:" OR "[Scene]" labels. Just provide the script text to be read.
-        - Structure: Start with a punchy hook, move to a clear technical explanation, and end with a "So What?" (why it matters).
-        - Flow: Use natural transitions (e.g., "Think of it like...", "But here's the catch...").
+        NARRATIVE RULES (MANDATORY):
+        1. WORD COUNT: Maximum 150 words.
+        2. Persona: A relatable, expert AI Engineer. Talk like a human, not a textbook.
+        3. NO META-TAGS: Do NOT use [Hook], labels, or "Host:". Just the script text.
+        4. UNIQUE VALUE: You MUST include one "Pro-Tip" or "Common Industry Gotcha" related to {context}.
+        5. TONE: Engaging, high-energy, and simple. Use everyday analogies.
+
+        SCRIPT STRUCTURE:
+        - Punchy Hook
+        - Simple Human-Level Explanation
+        - THE PRO-TIP (A specific technique or solution)
+        - Final "So What?"
+
+        -------------------------------------------------
+        PERSONAL LEARNING APPENDIX (FOR THE USER ONLY):
+        After the script is finished, add a section called:
+        
+        > [!TIP]
+        > ### 🎓 MASTER CLASS PREP
+        > Provide the following in this block:
+        > - A strict, high-level technical definition of {context}.
+        > - 2-3 Deep Technical Nuances (e.g., specific algorithms, math properties, or system trade-offs) for an Interviewer level.
+        -------------------------------------------------
         """
     else:
+        # ... [Long video prompt remains same] ...
         return f"""
         {SYSTEM_CONTEXT}
-
         Create a detailed, deep-dive YouTube video script.
         Topic/Context: {context}
         Level: {level}
         Guidance: {current_level_instr}
-        
-        Structure the response as a cohesive story. Avoid list-style "What/Why" sections. 
-        Focus on how the target concept fits into a larger system architecture.
         """
 
 def build_diagram_prompt(context):
     return f"""
     {SYSTEM_CONTEXT}
     
-    Create a PROFESSIONAL Mermaid.js 'graph TD' diagram for: {context}
+    Create a PROFESSIONAL and NON-LINEAR Mermaid.js 'graph TD' diagram for: {context}
     
-    VISUAL RULES:
-    1. DO NOT just use a straight line (A->B->C). Create a branching or circular flow.
-    2. Use subgraphs to group related components (e.g., "Data Layer", "Processing").
-    3. Use varied node shapes: ([Start/End]), [[Sub-process]], {{Decision}}.
-    4. Apply custom styles AT THE END of the graph definition:
+    VISUAL HIERARCHY RULES:
+    1. NON-LINEAR: The flow MUST branch. (e.g., A --> B and A --> C). 
+    2. SHAPES: Use [[Subprocess]], [(Database)], {{Decision}} where appropriate.
+    3. STYLING (MANDATORY): You MUST include exactly this styling block at the end of the code:
     
     classDef default fill:#1a1c23,stroke:#ff4b4b,stroke-width:2px,color:#fff,rx:10,ry:10
     classDef highlight fill:#ff4b4b,stroke:#fff,stroke-width:3px,color:#fff,font-weight:bold
     classDef data fill:#262730,stroke:#00d2ff,stroke-width:2px,color:#fff
     
-    To apply a class, use: class NodeID highlight
-    Return ONLY the Mermaid code. No markdown fences.
+    4. Apply classes to at least 2 nodes (e.g., class NodeA highlight).
+    
+    Return ONLY the raw Mermaid code.
     """
 
 def build_verification_prompt(original_output, context):

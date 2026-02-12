@@ -49,20 +49,30 @@ def run_shorts(topic_or_url, level):
     diagram = generate_concept_diagram(context if not is_repo else topic_or_url)
 
     print("[+] Shorts generation complete.")
+    
+    # Create a nice folder name from the topic or repo
+    folder_name = topic_or_url.split("/")[-1].replace("?", "").replace(" ", "_")
+    subfolder = os.path.join("shorts", folder_name)
+
     return {
         "explanation": summary,
         "diagram": diagram,
-        "markdown": export_markdown("Short_Explanation", summary),
-        "teleprompter": export_teleprompter("Short_Explanation", summary)
+        "markdown": export_markdown("Short_Explanation", summary, subfolder=subfolder),
+        "teleprompter": export_teleprompter("Short_Explanation", summary, subfolder=subfolder)
     }
 
 def run_long_video(repo_url, level):
     print(f"[*] Starting LONG VIDEO mode (Level: {level}) for: {repo_url}")
     repo_id = get_repo_id(repo_url)
     repo_path = load_github_repo(repo_url)
+    
+    repo_name = repo_url.split("/")[-1]
+    subfolder = os.path.join("long", repo_name)
 
     try:
+        # ... [parsing logic remains same] ...
         files = read_files(repo_path, max_files=MAX_FILES_LONG)
+        # ... [rest of processing] ...
         print(f"[+] Total files parsed: {len(files)}")
 
         # Build RAG
@@ -91,8 +101,8 @@ def run_long_video(repo_url, level):
             full_content = "> [!CAUTION]\n> Hallucinations detected: " + hallucinations + "\n\n" + full_content
 
         print("[*] Creating architecture diagram...")
-        md = export_markdown("Project_Explanation", full_content)
-        tp = export_teleprompter("Project_Explanation", full_content)
+        md = export_markdown("Project_Explanation", full_content, subfolder=subfolder)
+        tp = export_teleprompter("Project_Explanation", full_content, subfolder=subfolder)
 
         print("[+] Long video analysis complete.")
         return {

@@ -89,7 +89,7 @@ st.markdown("*Your AI-powered content engineering system*")
 with st.sidebar:
     st.header("⚙️ Configuration")
     mode = st.selectbox("Select Mode", ["Shorts", "Long Video"], index=0)
-    level = st.selectbox("Explanation Level", ["Beginner", "Student", "Interviewer"], index=1)
+    level = st.selectbox("Explanation Level", ["Beginner", "Student", "Interviewer"], index=2)
     st.divider()
     st.info("System optimized for RTX 3050 (4GB VRAM). Running fully local.")
 
