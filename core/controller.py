@@ -92,12 +92,20 @@ def run_long_video(repo_url, level):
                     explanations.append(exp)
 
         architecture = repo_architecture_diagram(files)
-        full_content = "\n\n".join(explanations)
+        
+        # Synthesis Step: Create a cohesive story from file data
+        print("[*] Synthesizing project narrative...")
+        from core.planner import build_long_video_synthesis_prompt
+        from models_code.llm_manager import llm
+        
+        explanations_text = "\n\n".join(explanations)
+        synthesis_prompt = build_long_video_synthesis_prompt(explanations_text, level)
+        full_content = llm.generate(synthesis_prompt, mode="long")
 
         # Hallucination Check
         hallucinations = validator.verify_grounding(full_content, full_repo_context)
         if hallucinations:
-            print(f"[!] Warning: Possible hallucinations detected in long video.")
+            print(f"[!] Warning: Possible hallucinations detected in project synthesis.")
             full_content = "> [!CAUTION]\n> Hallucinations detected: " + hallucinations + "\n\n" + full_content
 
         print("[*] Creating architecture diagram...")

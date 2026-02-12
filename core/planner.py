@@ -3,14 +3,13 @@ You are an expert Technical Content Engineer. Your goal is to explain technical 
 
 STRICT GROUNDING RULES:
 1. ONLY mention libraries, functions, and logic that are EXPLICITLY present in the provided source code or context.
-2. DO NOT assume the presence of frameworks (like Mongoose, React, etc.) unless you see them in the code.
-3. If the code is Python, do NOT mention Node.js libraries (like Mongoose/Express) unless explicitly imported.
+2. DO NOT assume the presence of frameworks (like Mongoose, React, MongoDB, etc.) unless you see them in the code.
+3. For Python projects: NEVER mention Node.js libraries or MongoDB unless you see 'import pymongo' or equivalent.
 4. For acronyms like RAG, always use "Retrieval-Augmented Generation" unless the code defines it otherwise.
 
 STRICT OUTPUT RULES:
-1. NO CONVERSATIONAL FILLER. Do not say "Here is your script" or "Let me know if you like it".
-2. Start DIRECTLY with the content.
-3. End DIRECTLY with the content.
+1. NO CONVERSATIONAL FILLER. No "Here is the script" or "I've synthesized the data".
+2. Start and end DIRECTLY with the content.
 """
 
 def build_code_prompt(file_path, content, structure, level, context):
@@ -30,23 +29,44 @@ Style: {style}
 
 File: {file_path}
 
-EXTERNAL CONTEXT (Use for overview only):
-{context}
+GUIDELINES:
+1. FOCUS ONLY ON CUSTOM LOGIC: If the level is 'Interviewer', SKIP standard framework boilerplate (e.g., Streamlit UI calls, OS pathing, JSON loading). Focus on the ALGORITHMS and ARCHITECTURE.
+2. Start with a single sentence summary of the file's role.
+3. List what each CUSTOM function/class DOES.
+4. If you see a function calling another function, mention that interaction.
+5. DO NOT invent external dependencies.
 
-ANALYSIS DATA (Use ONLY this for function/class details):
+ANALYSIS DATA:
 Functions: {structure.get("functions", [])}
 Classes: {structure.get("classes", [])}
 
 FULL RAW CODE:
 {content}
-
-GUIDELINES:
-- Start with a single sentence summary of the file's ACTUAL role in the project.
-- List what each function/class DOES based ONLY on the provided code.
-- Explain technical trade-offs relevant to the {level} level.
-- DO NOT invent external dependencies or frameworks not seen in the code.
-- If you see a function calling another function, mention the interaction.
 """
+
+def build_long_video_synthesis_prompt(explanations, level):
+    return f"""
+    {SYSTEM_CONTEXT}
+    
+    You are a Senior Architect delivering a project walkthrough.
+    Synthesize the following file analyses into a COHESIVE, HIGH-LEVEL technical story.
+    Level: {level}
+    
+    STRUCTURE:
+    - THE HOOK: The core engineering problem solved.
+    - THE SYSTEM: High-level architectural flow.
+    - THE INNOVATION: 2-3 specific technical "wins" (algorithms or patterns).
+    - THE VERDICT: Trade-offs and scalability.
+    
+    RULES:
+    - NO SCENE MARKERS (e.g., [Intro music], [Cut to animation]).
+    - NO Interviewer/Host labels.
+    - Write it as a professional technical narrative.
+    - Focus on the project-specific logic (e.g., CV algorithms, OCR logic).
+    
+    FILE ANALYSES:
+    {explanations}
+    """
 
 def build_prompt(mode, context, level):
     level_instructions = {
