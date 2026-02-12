@@ -1,3 +1,7 @@
 /venv
-/Ai You Tube Copilot – Technical Documentation.pdf
-/__pycache__
+Ai_You_Tube_Copilot_*.pdf
+**/__pycache__/
+/outputs/
+/vector_db/
+.env
+.agent/

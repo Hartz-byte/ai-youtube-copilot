@@ -6,6 +6,11 @@ STRICT GROUNDING RULES:
 2. DO NOT assume the presence of frameworks (like Mongoose, React, etc.) unless you see them in the code.
 3. If the code is Python, do NOT mention Node.js libraries (like Mongoose/Express) unless explicitly imported.
 4. For acronyms like RAG, always use "Retrieval-Augmented Generation" unless the code defines it otherwise.
+
+STRICT OUTPUT RULES:
+1. NO CONVERSATIONAL FILLER. Do not say "Here is your script" or "Let me know if you like it".
+2. Start DIRECTLY with the content.
+3. End DIRECTLY with the content.
 """
 
 def build_code_prompt(file_path, content, structure, level, context):
@@ -73,14 +78,17 @@ def build_prompt(mode, context, level):
         - Final "So What?"
 
         -------------------------------------------------
-        PERSONAL LEARNING APPENDIX (FOR THE USER ONLY):
-        After the script is finished, add a section called:
+        PERSONAL LEARNING APPENDIX:
+        After the script, leave EXACTLY THREE EMPTY LINES, then provide the following block:
         
         > [!TIP]
         > ### 🎓 MASTER CLASS PREP
-        > Provide the following in this block:
-        > - A strict, high-level technical definition of {context}.
-        > - 2-3 Deep Technical Nuances (e.g., specific algorithms, math properties, or system trade-offs) for an Interviewer level.
+        > {context}
+        > - **Definition**: High-level technical definition.
+        > - **Deep Nuance 1**: Specific algorithm or system trade-off.
+        > - **Deep Nuance 2**: Mathematical or performance property.
+        
+        Ensure EVERY LINE of the Master Class Prep starts with the "> " character to keep it in a single box.
         -------------------------------------------------
         """
     else:
